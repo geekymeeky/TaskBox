@@ -17,7 +17,7 @@
     "web-vitals": "^1.0.1"
   },
   "scripts": {
-    "dev": "concurrently \"node connect.js\" \"npm run start\"",
+    "dev": "concurrently \"nodemon connect.js\" \"npm run start\"",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -42,6 +42,7 @@
     ]
   },
   "devDependencies": {
-    "concurrently": "^6.2.1"
+    "concurrently": "^6.2.1",
+    "nodemon": "^2.0.12"
   }
 }

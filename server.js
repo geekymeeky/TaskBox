@@ -5,11 +5,13 @@ const express = require('express')
 const cors = require('cors')
 const morgan = require('morgan')
 const Candidate = require('./models/candidate')
+const path = require('path')
 
 const app = express()
-const port = process.env.PORT || 8080
+const port = process.env.PORT || 5000
 
 app.disable('x-powered-by')
+app.use(express.static(path.join(__dirname, 'client/build')))
 
 app.use(cors())
 app.use(express.json())
@@ -35,13 +37,17 @@ app.post('/add', async (req, res) => {
   }
 })
 
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname + '/client/build/index.html'))
+})
+
 const connect = () => {
   return mongoose.connect(process.env.MONGOURI)
 }
 
 connect().then(
   app.listen(port, () => {
-    console.log(`App listening at http://localhost:4000`)
+    console.log(`App listening at http://localhost:${port}`)
   })
 )
 

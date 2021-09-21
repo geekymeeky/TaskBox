@@ -75,7 +75,7 @@ const Form = () => {
       fileUrl,
     }
 
-    await fetch('http://localhost:4000/add/', {
+    await fetch(`http://${window.location.host}/add/`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

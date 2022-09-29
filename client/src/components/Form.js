@@ -15,7 +15,6 @@ const Form = () => {
   const [email, setEmail] = useState('')
   const [title, setTitle] = useState('')
   const [subject, setSubject] = useState('')
-  const [fileUrl, setFileUrl] = useState('')
   const [file, setFile] = useState()
   const [message, setMessage] = useState()
 
@@ -28,7 +27,7 @@ const Form = () => {
     { name: 'File', type: 'file', handler: setFile },
   ]
 
-  async function uploadFile() {
+  function uploadFile() {
     const storage = getStorage(app)
 
     const storageRef = ref(storage, 'files/' + file.name)
@@ -58,14 +57,13 @@ const Form = () => {
         // Upload completed successfully, now we can get the download URL
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
           console.log('File available at', downloadURL)
-          setFileUrl(downloadURL)
+          submitAssignment(downloadURL)
         })
       }
     )
   }
 
-  async function submitAssignment() {
-    await uploadFile()
+  async function submitAssignment(fileUrl) {
     const payload = {
       name,
       email,
@@ -75,7 +73,7 @@ const Form = () => {
       fileUrl,
     }
 
-    await fetch(`https://${window.location.host}/add/`, {
+    await fetch(`add/`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -89,7 +87,7 @@ const Form = () => {
     <form
       onSubmit={(e) => {
         e.preventDefault()
-        submitAssignment()
+        uploadFile()
       }}
     >
       <fieldset>

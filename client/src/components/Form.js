@@ -73,7 +73,7 @@ const Form = () => {
       fileUrl,
     }
 
-    await fetch(`add/`, {
+    await fetch(`api/v1/add/`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

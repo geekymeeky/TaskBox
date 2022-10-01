@@ -13,12 +13,12 @@
   cursor: pointer;
 }
 
-.card:first-of-type {
+[href='/create'] .card {
   background: #81ceff;
   color: #00598e;
 }
 
-.card:nth-of-type(2) {
+[href='/submit'] .card {
   background: #00598e;
   color: #81ceff;
 }

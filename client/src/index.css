@@ -10,6 +10,7 @@
 
 body {
   background: linear-gradient(210deg, #0596ff 13.4%, #5799f7 86.6%);
+  font-family: 'Montserrat', sans-serif;
 }
 .container {
   display: flex;

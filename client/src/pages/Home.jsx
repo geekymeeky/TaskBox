@@ -2,20 +2,24 @@ import React from 'react'
 import Card from '../components/Card'
 import createIcon from './Create.svg'
 import submitIcon from './Submit.svg'
+import { Link } from 'react-router-dom'
 
 const Home = () => {
   return (
     <div
       style={{
-        display: 'flex',
-        justifyContent: 'space-around',
-        gap: '2rem',
-        alignItems: 'center',
+        display: 'grid',
+        gridTemplateColumns: '1fr 1fr',
+        placeItems: 'center',
         height: '100vh',
       }}
     >
-      <Card title={'Create'} icon={createIcon} />
-      <Card title={'Submit'} icon={submitIcon} />
+      <Link to="/create" style={{ textDecoration: 'none' }}>
+        <Card title={'Create'} icon={createIcon} />
+      </Link>
+      <Link to="/submit" style={{ textDecoration: 'none' }}>
+        <Card title={'Submit'} icon={submitIcon} />
+      </Link>
     </div>
   )
 }

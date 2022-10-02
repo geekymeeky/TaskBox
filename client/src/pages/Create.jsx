@@ -2,8 +2,8 @@ import React from 'react'
 import { useState } from 'react'
 import '../components/Form.css'
 import { FaLink } from 'react-icons/fa'
+import { copyToClipboardWithAlert } from '../utils/utils'
 
-// create a assignment submission form with inline styles
 const Create = () => {
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
@@ -21,14 +21,25 @@ const Create = () => {
     { name: 'Due date', type: 'date', value: dueDate, handler: setDueDate },
     { name: 'Points', type: 'number', value: points, handler: setPoints },
   ]
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    const newTask = { title, description, dueDate, points }
+    const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(newTask),
+    }
+    fetch('api/v1/create', requestOptions)
+      .then((res) => res.json())
+      .then((data) => {
+        copyToClipboardWithAlert(data.link)
+      })
+  }
+
   return (
     <div className="create__wrapper">
-      <form
-        className="form"
-        onSubmit={(e) => {
-          e.preventDefault()
-        }}
-      >
+      <form className="form" onSubmit={handleSubmit}>
         <fieldset className="field">
           <legend className="legend">Create Assignment Form</legend>
 

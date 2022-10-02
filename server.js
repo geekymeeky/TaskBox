@@ -4,7 +4,6 @@ const mongoose = require('mongoose')
 const express = require('express')
 const cors = require('cors')
 const morgan = require('morgan')
-const Candidate = require('./api/v1/models/candidate')
 const path = require('path')
 
 const app = express()

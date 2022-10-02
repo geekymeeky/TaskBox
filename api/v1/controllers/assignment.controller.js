@@ -1,4 +1,5 @@
 const Assignment = require('../models/assignment.model')
+const Submission = require('../models/submission.model')
 
 // create
 exports.create = (req, res) => {
@@ -45,4 +46,33 @@ exports.findOne = (req, res) => {
         message: err.message || 'Error retrieving assignment with uid',
       })
     })
+}
+
+exports.submit = (req, res) => {
+  // validate request
+  if (!req.body) {
+    res.status(400).send({
+      message: 'Content cannot be empty',
+    })
+  }
+
+  // create submission
+  const submission = new Submission({
+    assignment: req.body.assignment,
+    name: req.body.name,
+    phone: req.body.phone,
+    email: req.body.email,
+    description: req.body.description,
+    fileUrl: req.body.fileUrl,
+  })
+
+  // save submission in db
+  Submission.create(submission, (err, data) => {
+    if (err)
+      res.status(500).send({
+        message:
+          err.message || 'Some error occurred while creating the submission',
+      })
+    else res.status(201).json({ message: 'Submitted successfully', data })
+  })
 }

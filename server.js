@@ -4,7 +4,7 @@ const mongoose = require('mongoose')
 const express = require('express')
 const cors = require('cors')
 const morgan = require('morgan')
-const Candidate = require('./models/candidate')
+const Candidate = require('./api/v1/models/candidate')
 const path = require('path')
 
 const app = express()
@@ -26,15 +26,8 @@ app.get('/', async (req, res) => {
     res.status(404)
   }
 })
-app.get('/all', async (req, res) => {
-  try {
-    const doc = await Candidate.find({}).lean().exec()
-    return res.status(200).json({ data: doc })
-  } catch (e) {
-    console.error(e)
-    res.status(404)
-  }
-})
+
+app.use('/api/v1', require('./api/v1/routes/assignment.route'))
 
 app.post('/add', async (req, res) => {
   try {

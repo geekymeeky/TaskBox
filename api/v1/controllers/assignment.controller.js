@@ -25,7 +25,7 @@ exports.create = (req, res) => {
         message:
           err.message || 'Some error occurred while creating the assignment',
       })
-    else res.status(201).json({ message: 'success' })
+    else res.status(201).json({ message: 'Assignment created', data })
   })
 }
 

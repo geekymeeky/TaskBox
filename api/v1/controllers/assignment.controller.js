@@ -25,23 +25,24 @@ exports.create = (req, res) => {
         message:
           err.message || 'Some error occurred while creating the assignment',
       })
-    else res.status(201).send(data)
+    else res.status(201).json({ message: 'success' })
   })
 }
 
 // retrieve one uuid
 exports.findOne = (req, res) => {
-  Assignment.findOne({ uid: req.params.uid }, (err, data) => {
-    if (err) {
-      if (err.kind === 'not_found') {
+  Assignment.findOne({ uid: req.params.uid })
+    .select('-__v -createdAt -updatedAt -_id')
+    .then((data) => {
+      if (!data)
         res.status(404).send({
           message: `Not found assignment with uid ${req.params.uid}`,
         })
-      } else {
-        res.status(500).send({
-          message: 'Error retrieving assignment with uid ' + req.params.uid,
-        })
-      }
-    } else res.send(data)
-  })
+      else res.status(200).json(data)
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: err.message || 'Error retrieving assignment with uid',
+      })
+    })
 }

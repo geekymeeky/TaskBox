@@ -3,12 +3,14 @@ import { useState } from 'react'
 import '../components/Form.css'
 import { FaLink } from 'react-icons/fa'
 import { copyToClipboardWithAlert } from '../utils/utils'
+import { uploadFile } from '../utils/utils'
 
 const Create = () => {
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
   const [dueDate, setDueDate] = useState(new Date().toISOString().split('T')[0])
   const [points, setPoints] = useState(10)
+  const [file, setFile] = useState(null)
 
   const fieldName = [
     { name: 'Title', type: 'text', value: title, handler: setTitle },
@@ -18,23 +20,27 @@ const Create = () => {
       value: description,
       handler: setDescription,
     },
+    { name: 'Attachment', type: 'file', value: file, handler: setFile },
     { name: 'Due date', type: 'date', value: dueDate, handler: setDueDate },
     { name: 'Points', type: 'number', value: points, handler: setPoints },
   ]
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    const newTask = { title, description, dueDate, points }
-    const requestOptions = {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(newTask),
-    }
-    fetch('api/v1/create', requestOptions)
-      .then((res) => res.json())
-      .then((data) => {
-        copyToClipboardWithAlert(data.link)
-      })
+    uploadFile(file).then((url) => {
+      console.log(url)
+      const newTask = { title, description, fileUrl: url, dueDate, points }
+      const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newTask),
+      }
+      fetch('api/v1/create', requestOptions)
+        .then((res) => res.json())
+        .then((data) => {
+          copyToClipboardWithAlert(data.link)
+        })
+    })
   }
 
   return (
@@ -52,7 +58,7 @@ const Create = () => {
                 type={type}
                 id={name.toLowerCase()}
                 name={name}
-                value={value}
+                {...(type === 'file' ? {} : { value: value })}
                 onChange={
                   type !== 'file'
                     ? (e) => handler(e.target.value)

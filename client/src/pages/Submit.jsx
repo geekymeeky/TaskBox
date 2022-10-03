@@ -66,17 +66,19 @@ const Create = () => {
         email,
         file: url,
         description,
-        assignmentuid: params.uid,
+        assignment: params.id,
       }
       const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(newTask),
       }
-      fetch('api/v1/submit', requestOptions)
+      fetch(`${window.location.origin}/api/v1/submit`, requestOptions)
         .then((res) => res.json())
         .then((data) => {
-          copyToClipboardWithAlert(data.link)
+          copyToClipboardWithAlert(
+            `${window.location.origin}?edit=${data.data.submissionId}`
+          )
         })
     })
   }

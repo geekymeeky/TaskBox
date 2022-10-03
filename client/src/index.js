@@ -16,10 +16,10 @@ const router = createBrowserRouter([
     element: <Create />,
   },
   {
-    path: '/submit/:uid',
+    path: '/submit/:id',
     element: <Submit />,
     loader: async ({ params }) => {
-      const res = await fetch(`/api/v1/${params.uid}`)
+      const res = await fetch(`/api/v1/${params.id}`)
       const data = await res.json()
       if (res.status === 404) {
         throw redirect('/')

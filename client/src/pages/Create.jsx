@@ -38,7 +38,9 @@ const Create = () => {
       fetch('api/v1/create', requestOptions)
         .then((res) => res.json())
         .then((data) => {
-          copyToClipboardWithAlert(data.link)
+          copyToClipboardWithAlert(
+            `${window.location.origin}/submit/${data.data._id}`
+          )
         })
     })
   }

@@ -1,5 +1,4 @@
 const mongoose = require('mongoose')
-const { v4: uuidv4 } = require('uuid')
 
 const assignmentSchema = mongoose.Schema(
   {
@@ -22,12 +21,6 @@ const assignmentSchema = mongoose.Schema(
     points: {
       type: Number,
       required: true,
-    },
-    uid: {
-      type: String,
-      default: () => {
-        return uuidv4()
-      },
     },
   },
   {

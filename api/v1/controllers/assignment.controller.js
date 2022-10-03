@@ -32,18 +32,18 @@ exports.create = (req, res) => {
 
 // retrieve one uuid
 exports.findOne = (req, res) => {
-  Assignment.findOne({ uid: req.params.uid })
-    .select('-__v -createdAt -updatedAt -_id')
+  Assignment.findById(req.params.id)
+    .select('-__v -_id')
     .then((data) => {
       if (!data)
         res.status(404).send({
-          message: `Not found assignment with uid ${req.params.uid}`,
+          message: `Not found assignment with id ${req.params.id}`,
         })
       else res.status(200).json(data)
     })
     .catch((err) => {
       res.status(500).send({
-        message: err.message || 'Error retrieving assignment with uid',
+        message: err.message || 'Error retrieving assignment with id',
       })
     })
 }

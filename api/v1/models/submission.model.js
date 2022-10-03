@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const Assignment = require('./assignment.model')
+const { v4: uuidv4 } = require('uuid')
 
 const submissionSchema = new mongoose.Schema(
   {
@@ -8,7 +9,7 @@ const submissionSchema = new mongoose.Schema(
       ref: 'Assignment',
       required: true,
       validate: {
-        validator: (v) => Assignment.findOne({ uid: v }),
+        validator: (v) => Assignment.findById(v),
         message: (props) => `${props.value} is not a valid assignment uid`,
       },
     },
